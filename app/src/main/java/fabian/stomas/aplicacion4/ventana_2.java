@@ -27,7 +27,6 @@ public class ventana_2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        System.out.println(".");
         ArrayList<Tipo_canal> tipo_canales = dtbmng.getAllTipoCanales();
         for(Tipo_canal i: tipo_canales){
             System.out.println(i.ID);
