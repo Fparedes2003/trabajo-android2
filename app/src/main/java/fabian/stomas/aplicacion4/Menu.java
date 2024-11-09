@@ -35,16 +35,16 @@ public class Menu extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Canal> itemList = new ArrayList<>();
         for(Canal i: canales){
-            itemList.add(new Canal( i.Id,i.Nombre,i.Descripcion,i.Tipo_canaldb));
+            itemList.add(new Canal( i.Id,i.Nombre,i.Descripcion,i.Tipo_canaldb, i.Tarea_ID));
         }
         MyAdapter adapter = new MyAdapter(itemList);
         recyclerView.setAdapter(adapter);
         adapter.setOnClickListener(view -> {
             int position = recyclerView.getChildAdapterPosition(view);
             Canal clickedItem = itemList.get(position);
-            //Intent intent = new Intent(Menu.this, claseDePrueba.class);
-            //intent.putExtra("Canal", clickedItem);
-            //startActivity(intent);
+            Intent intent = new Intent(Menu.this, MenuCanal.class);
+            intent.putExtra("Canal", clickedItem);
+            startActivity(intent);
         });
         binding.usuario.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -14,6 +14,13 @@ public class Tarea {
 
     }
 
+    public Tarea(String Titulo, String Descripcion, String Estado, Date Fecha_expiracion){
+        this.Titulo = Titulo;
+        this.Descripcion = Descripcion;
+        this.Estado = Estado;
+        this.Fecha_expiracion = Fecha_expiracion;
+    }
+
     public Tarea(int ID, String Titulo, String Descripcion, String Estado, Date Fecha_expiracion){
         this.ID = ID;
         this.Titulo = Titulo;
