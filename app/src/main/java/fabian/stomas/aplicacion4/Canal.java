@@ -9,11 +9,22 @@ public class Canal implements Serializable {
     int Tipo_canal;
     String Tipo_canaldb;
     int admin;
+    int Tarea_ID;
     ArrayList<Usuario> usuariosCanal;
+    public static int idCanal;
 
     public Canal(){
 
     }
+    public Canal(int Id, String Nombre, String Descripcion, int Tipo_canal, int admin, int Tarea_ID){
+        this.Id = Id;
+        this.Nombre = Nombre;
+        this.Descripcion = Descripcion;
+        this.Tipo_canal = Tipo_canal;
+        this.admin = admin;
+        this.Tarea_ID = Tarea_ID;
+    }
+
     public Canal(int Id, String Nombre, String Descripcion, String Tipo_canaldb){
         this.Id = Id;
         this.Nombre = Nombre;
@@ -79,6 +90,14 @@ public class Canal implements Serializable {
 
     public void setAdmin(int admin) {
         this.admin = admin;
+    }
+
+    public int getTarea_ID() {
+        return Tarea_ID;
+    }
+
+    public void setTarea_ID(int tarea_ID) {
+        Tarea_ID = tarea_ID;
     }
 
     public ArrayList<Usuario> getUsuariosCanal() {

@@ -50,11 +50,14 @@ public class CrearCanal extends AppCompatActivity {
                     canal.setTipo_canal(tipo_canalId);
                     admin = Usuario.idActual;
                     canal.setAdmin(admin);
-                    id_canal = dtbsmng.insertCanal(canal);
+                    Canal.idCanal = dtbsmng.insertCanal(canal);
+                    System.out.println("id del canal : "+Canal.idCanal);
                     usuariosCanales.setId_usuario(admin);
-                    usuariosCanales.setId_canal(id_canal);
+                    usuariosCanales.setId_canal(Canal.idCanal);
                     dtbsmng.insertUsuarios_canales(usuariosCanales);
                     Toast.makeText(CrearCanal.this, "SE HA CREADO TU CANAL", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CrearCanal.this, CrearTarea.class);
+                    startActivity(intent);
                 }
             }
         });
