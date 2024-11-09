@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@drawable/opciones"
+            android:src="@drawable/opciones"
             tools:ignore="SpeakableTextPresentCheck"
             tools:layout_editor_absoluteX="347dp" />
 
@@ -42,7 +42,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginStart="5dp"
             android:background="@drawable/chat"
             tools:ignore="SpeakableTextPresentCheck"
             tools:layout_editor_absoluteX="283dp" />
@@ -70,15 +69,17 @@
             android:contentDescription="teléfono"
             android:src="@drawable/telefono" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/Agregar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/black"
+            android:backgroundTint="@color/black"
             android:contentDescription="agregar"
             android:src="@drawable/agregar" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/Videollamada"
             android:layout_width="0dp"
             android:layout_height="91dp"
