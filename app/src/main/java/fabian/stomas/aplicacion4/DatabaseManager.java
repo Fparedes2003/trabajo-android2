@@ -6,7 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.renderscript.Sampler;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DatabaseManager {
     private MyDatabaseHelper dbHelper;
@@ -39,6 +41,13 @@ public class DatabaseManager {
         db.update("usuario", values, "Password = ?", new String[]{passwordActual});
         db.close();
     }
+    public void updateCanalTarea_ID(int idCanal, int Tarea_id){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Tarea_ID", Tarea_id);
+        db.update("canales", values, "ID = ?", new String[]{String.valueOf(idCanal)});
+        db.close();
+    }
     public int insertCanal(Canal canal){
         int id_canal = 0;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -56,6 +65,26 @@ public class DatabaseManager {
         cursor.close();
         db.close();
         return id_canal;
+    }
+    public int insertTarea(Tarea tarea){
+        int id_tarea = 0;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Titulo", tarea.getTitulo());
+        values.put("Descripcion", tarea.getDescripcion());
+        values.put("Estado", tarea.getEstado());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String Fecha_expiracion = formatter.format(tarea.getFecha_expiracion());
+        values.put("Fecha_expiracion", Fecha_expiracion);
+        db.insert("tareas", null, values);
+        dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT ID FROM tareas ORDER BY ID DESC LIMIT 1", null);
+        if(cursor.moveToFirst()){
+            id_tarea = cursor.getInt(0);
+        }
+        cursor.close();
+        db.close();
+        return id_tarea;
     }
     public void insertTipoCanal(Tipo_canal tipo_canal){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -129,6 +158,32 @@ public class DatabaseManager {
         db.close();
         return listaTipoCanales;
     }
+    public ArrayList<Tarea> getAllTareas(){
+        ArrayList<Tarea> listaTareas = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM tareas", null);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Titulo = cursor.getString(1);
+                String Descripcion = cursor.getString(2);
+                String Estado = cursor.getString(3);
+                String Fecha_expiracion = cursor.getString(4);
+                Date Fecha_expiracion2 = null;
+                try{
+                    Fecha_expiracion2 = formatter.parse(Fecha_expiracion);
+                }catch (Exception e){
+
+                }
+                Tarea tarea = new Tarea(ID, Titulo, Descripcion, Estado, Fecha_expiracion2);
+                listaTareas.add(tarea);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaTareas;
+    }
     public Usuario getUsuarioByPassEmail(String correo, String password){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM usuario WHERE correo = ? AND password = ?", new String[]{correo, password});
@@ -159,7 +214,8 @@ public class DatabaseManager {
                 String descripcion = cursor.getString(2);
                 int tipo_canal = cursor.getInt(3);
                 int Admin_ID = cursor.getInt(4);
-                Canal canal = new Canal(id, nombre, descripcion, tipo_canal, Admin_ID);
+                int Tarea_ID = cursor.getInt(5);
+                Canal canal = new Canal(id, nombre, descripcion, tipo_canal, Admin_ID, Tarea_ID);
                 listaCanales.add(canal);
             }while(cursor.moveToNext());
         }
