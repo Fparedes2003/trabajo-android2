@@ -124,7 +124,7 @@ public class DatabaseManager {
     public ArrayList<Canal> getAllCanalesDelUsuario(int usuario_id){
         ArrayList<Canal> listaCanalesDelUsuario = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT canales.ID, canales.Nombre, canales.Descripcion, tipo_canales.Nombre FROM canales " +
+        Cursor cursor = db.rawQuery("SELECT canales.ID, canales.Nombre, canales.Descripcion, tipo_canales.Nombre, canales.Tarea_ID FROM canales " +
                 "INNER JOIN usuarios_canales ON canales.ID = usuarios_canales.id_canal " +
                 "INNER JOIN usuario ON usuario.ID = usuarios_canales.id_usuario " +
                 "INNER JOIN tipo_canales ON tipo_canales.ID = canales.Tipo_canal WHERE usuarios_canales.id_usuario = ?", new String[]{String.valueOf(usuario_id)});
@@ -134,7 +134,8 @@ public class DatabaseManager {
                 String Nombre = cursor.getString(1);
                 String Descripcion = cursor.getString(2);
                 String Tipo_canal = cursor.getString(3);
-                Canal canal = new Canal(ID, Nombre, Descripcion, Tipo_canal);
+                int Tarea_ID = cursor.getInt(4);
+                Canal canal = new Canal(ID, Nombre, Descripcion, Tipo_canal, Tarea_ID);
                 listaCanalesDelUsuario.add(canal);
             }while(cursor.moveToNext());
         }
@@ -183,6 +184,32 @@ public class DatabaseManager {
         cursor.close();
         db.close();
         return listaTareas;
+    }
+    public Tarea getTareaDelCanal(int idTarea){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT tareas.Titulo, tareas.Descripcion, tareas.Estado, tareas.Fecha_expiracion FROM tareas " +
+                "INNER JOIN canales ON canales.Tarea_ID = tareas.ID " +
+                "WHERE canales.Tarea_ID = ?", new String[]{String.valueOf(idTarea)});
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor != null && cursor.moveToFirst()){
+            String Titulo = cursor.getString(0);
+            String Descripcion = cursor.getString(1);
+            String Estado = cursor.getString(2);
+            String Fecha_expiracion = cursor.getString(3);
+            Date Fecha_expiracion2 = null;
+            try{
+                Fecha_expiracion2 = formatter.parse(Fecha_expiracion);
+            }catch (Exception e){
+
+            }
+            Tarea tarea = new Tarea(Titulo, Descripcion, Estado, Fecha_expiracion2);
+            cursor.close();
+            db.close();
+            return tarea;
+        }
+        cursor.close();
+        db.close();
+        return null;
     }
     public Usuario getUsuarioByPassEmail(String correo, String password){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
