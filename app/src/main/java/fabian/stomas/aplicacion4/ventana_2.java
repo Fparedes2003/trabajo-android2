@@ -27,15 +27,6 @@ public class ventana_2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        ArrayList<Canal> canales = dtbmng.getAllCanales();
-        for(Canal i: canales){
-            System.out.println("ID: "+i.Id);
-            System.out.println("Nombre: "+i.Nombre);
-            System.out.println("Descripcion: "+i.Descripcion);
-            System.out.println("Tipo_canal: "+i.Tipo_canal);
-            System.out.println("Admin: "+i.admin);
-            System.out.println("TAREA_ID: "+i.Tarea_ID);
-        }
         binding = Ventana2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +37,7 @@ public class ventana_2 extends AppCompatActivity {
                 Usuario usuario = dtbmng.getUsuarioByPassEmail(email, pass);
                 if(usuario != null){
                     usuarios.add(usuario);
-                    Usuario.idActual = usuario.getIdUsuarioActual(usuario.ID);
+                    Usuario.idActual = usuario.getID();
                     Intent intent = new Intent(ventana_2.this, Menu.class);
                     startActivity(intent);
                 }else{

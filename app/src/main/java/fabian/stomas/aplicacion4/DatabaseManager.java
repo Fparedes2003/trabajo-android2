@@ -66,6 +66,17 @@ public class DatabaseManager {
         db.close();
         return id_canal;
     }
+    public void insertAvance(Avance avance){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Titulo", avance.getTitulo());
+        values.put("Descripcion", avance.getDescripcion());
+        values.put("Fecha_avance", avance.getFecha_avancedb());
+        values.put("id_usuario", avance.getId_usuario());
+        values.put("id_canal", avance.getId_canal());
+        db.insert("avances", null, values);
+        db.close();
+    }
     public int insertTarea(Tarea tarea){
         int id_tarea = 0;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -249,6 +260,33 @@ public class DatabaseManager {
         cursor.close();
         db.close();
         return listaCanales;
+    }
+    public ArrayList<Avance> getAllAvances(){
+        ArrayList<Avance> listaAvances = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM avances", null);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Titulo = cursor.getString(1);
+                String Descripcion = cursor.getString(2);
+                String Fecha_avance = cursor.getString(3);
+                Date Fecha_avance2 = null;
+                int id_usuario = cursor.getInt(4);
+                int id_canal = cursor.getInt(5);
+                try{
+                    Fecha_avance2 = formatter.parse(Fecha_avance);
+                }catch (Exception e){
+
+                }
+                Avance avance = new Avance(ID, Titulo, Descripcion, Fecha_avance2, id_usuario, id_canal);
+                listaAvances.add(avance);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaAvances;
     }
     public ArrayList<UsuariosCanales> getAllUsuarios_canales(){
         ArrayList<UsuariosCanales> listaUsuarios_canales = new ArrayList<>();
