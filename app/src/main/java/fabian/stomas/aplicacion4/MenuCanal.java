@@ -53,6 +53,14 @@ public class MenuCanal extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.Agregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuCanal.this, CrearAvance.class);
+                intent.putExtra("Canal", canal);
+                startActivity(intent);
+            }
+        });
     }
 
 }
