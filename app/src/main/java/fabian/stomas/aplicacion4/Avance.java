@@ -10,18 +10,34 @@ public class Avance {
     String Fecha_avancedb;
     int id_usuario;
     int id_canal;
+    String nombreUsuariodb;
+    String apellidoUsuariodb;
 
-    public Avance(){
+    public Avance() {
 
     }
 
-    public Avance(int ID, String Titulo, String Descripcion, Date Fecha_avance, int id_usuario, int id_canal){
+    public Avance(int ID, String Titulo, String Descripcion, Date Fecha_avance, int id_usuario, int id_canal) {
         this.ID = ID;
         this.Titulo = Titulo;
         this.Descripcion = Descripcion;
         this.Fecha_avance = Fecha_avance;
         this.id_usuario = id_usuario;
         this.id_canal = id_canal;
+    }
+
+    public Avance(String Titulo, String Descripcion, Date Fecha_avance, String nombreUsuariodb, String apellidoUsuariodb){
+        this.Titulo = Titulo;
+        this.Descripcion = Descripcion;
+        this.Fecha_avance = Fecha_avance;
+        this.nombreUsuariodb = nombreUsuariodb;
+        this.apellidoUsuariodb = apellidoUsuariodb;
+    }
+    public Avance(String Titulo, String Descripcion, String Fecha_avancedb, String nombreUsuariodb){
+        this.Titulo = Titulo;
+        this.Descripcion = Descripcion;
+        this.Fecha_avancedb = Fecha_avancedb;
+        this.nombreUsuariodb = nombreUsuariodb;
     }
 
     public int getID() {
@@ -78,6 +94,22 @@ public class Avance {
 
     public void setId_canal(int id_canal) {
         this.id_canal = id_canal;
+    }
+
+    public String getNombreUsuariodb() {
+        return nombreUsuariodb;
+    }
+
+    public void setNombreUsuariodb(String nombreUsuariodb) {
+        this.nombreUsuariodb = nombreUsuariodb;
+    }
+
+    public String getApellidoUsuariodb() {
+        return apellidoUsuariodb;
+    }
+
+    public void setApellidoUsuariodb(String apellidoUsuariodb) {
+        this.apellidoUsuariodb = apellidoUsuariodb;
     }
 }
 
