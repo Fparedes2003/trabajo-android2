@@ -6,8 +6,11 @@ import android.view.View;
 import fabian.stomas.aplicacion4.databinding.MenuCanalBinding;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MenuCanal extends AppCompatActivity {
@@ -20,6 +23,7 @@ public class MenuCanal extends AppCompatActivity {
     String estadoTarea;
     Date fechaTarea;
     String fechaTareaf;
+    String Fecha_avancef;
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -46,6 +50,16 @@ public class MenuCanal extends AppCompatActivity {
         binding.descripcionTarea.setText(descripcionTarea);
         binding.estadoTarea.setText(estadoTarea);
         binding.fechaTarea.setText(fechaTareaf);
+        ArrayList<Avance> listaAvances = dtbmng.getAvancesDelCanal(idCanal);
+        RecyclerView recyclerView = binding.recyclerAvances;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<Avance> avancesList = new ArrayList<>();
+        for(Avance i: listaAvances){
+            Fecha_avancef = formatter.format(i.Fecha_avance);
+            avancesList.add(new Avance(i.Titulo, i.Descripcion, Fecha_avancef, i.nombreUsuariodb));
+        }
+        MyAdapter2 myAdapter2 = new MyAdapter2(avancesList);
+        recyclerView.setAdapter(myAdapter2);
         binding.returnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -222,6 +222,35 @@ public class DatabaseManager {
         db.close();
         return null;
     }
+    public ArrayList<Avance> getAvancesDelCanal(int canal_id){
+        ArrayList<Avance> listaAvancesDelCanal = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT avances.Titulo, avances.Descripcion, avances.Fecha_avance, usuario.Nombre, usuario.Apellido FROM avances " +
+                "INNER JOIN usuario ON usuario.ID = avances.id_usuario " +
+                "INNER JOIN canales ON canales.ID = avances.id_canal " +
+                "WHERE canales.id = ?", new String[]{String.valueOf(canal_id)});
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                String Tiulo = cursor.getString(0);
+                String Descripcion = cursor.getString(1);
+                String Fecha_avance = cursor.getString(2);
+                String nombreUsuariodb = cursor.getString(3);
+                String apellidoUsuariodb = cursor.getString(4);
+                Date Fecha_avance2 = null;
+                try{
+                    Fecha_avance2 = formatter.parse(Fecha_avance);
+                }catch (Exception e){
+
+                }
+                Avance avance = new Avance(Tiulo, Descripcion, Fecha_avance2, nombreUsuariodb, apellidoUsuariodb);
+                listaAvancesDelCanal.add(avance);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaAvancesDelCanal;
+    }
     public Usuario getUsuarioByPassEmail(String correo, String password){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM usuario WHERE correo = ? AND password = ?", new String[]{correo, password});
