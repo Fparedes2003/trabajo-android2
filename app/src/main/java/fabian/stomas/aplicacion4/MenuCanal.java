@@ -2,6 +2,7 @@ package fabian.stomas.aplicacion4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import fabian.stomas.aplicacion4.databinding.MenuCanalBinding;
 import androidx.activity.EdgeToEdge;
@@ -75,6 +76,23 @@ public class MenuCanal extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.opciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuCanal.this, CanalConfig.class);
+                intent.putExtra("Canal", canal);
+                startActivity(intent);
+
+            }
+        });
+        binding.cambiarEstado.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dtbmng.updateEstadoTarea(idTareaDelCanal);
+                Toast.makeText(MenuCanal.this, "SE HA CAMBIADO EL ESTADO DE LA TAREA", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }
