@@ -41,6 +41,13 @@ public class DatabaseManager {
         db.update("usuario", values, "Password = ?", new String[]{passwordActual});
         db.close();
     }
+    public void updateEstadoTarea(int idTarea){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", "Terminada");
+        db.update("tareas", values, "ID = ?", new String[]{String.valueOf(idTarea)});
+        db.close();
+    }
     public void updateCanalTarea_ID(int idCanal, int Tarea_id){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
