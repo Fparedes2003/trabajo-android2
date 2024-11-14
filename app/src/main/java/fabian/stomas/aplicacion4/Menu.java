@@ -53,6 +53,13 @@ public class Menu extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.lupa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Menu.this, BuscarUsuarios.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
