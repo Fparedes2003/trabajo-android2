@@ -6,7 +6,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="388dp"
-        android:layout_height="198dp"
+        android:layout_height="205dp"
         android:layout_margin="8dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
@@ -45,6 +45,12 @@
                     android:text="Nombre del usuario"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apellido del usuario"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
