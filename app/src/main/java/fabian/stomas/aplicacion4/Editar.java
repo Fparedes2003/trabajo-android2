@@ -40,6 +40,12 @@ public class Editar extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.CrearApuntes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Editar.this, CrearApunte.class);
+                startActivity(intent);
+            }
+        });
     }
-
 }
