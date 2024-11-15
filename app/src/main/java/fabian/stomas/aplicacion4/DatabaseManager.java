@@ -41,6 +41,13 @@ public class DatabaseManager {
         db.update("usuario", values, "Password = ?", new String[]{passwordActual});
         db.close();
     }
+    public void updateEstadoTarea(int idTarea){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", "Terminada");
+        db.update("tareas", values, "ID = ?", new String[]{String.valueOf(idTarea)});
+        db.close();
+    }
     public void updateCanalTarea_ID(int idCanal, int Tarea_id){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -112,6 +119,14 @@ public class DatabaseManager {
         db.insert("usuarios_canales", null, values);
         db.close();
     }
+    public void insertAmigos(Amigos amigos){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_usuario", amigos.getId_usuario());
+        values.put("id_amigo", amigos.getId_amigo());
+        db.insert("amigos", null, values);
+        db.close();
+    }
     public ArrayList<Usuario> getAllUsuarios(){
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -131,6 +146,38 @@ public class DatabaseManager {
         cursor.close();
         db.close();
         return listaUsuarios;
+    }
+    public ArrayList<Amigos> getAllAmigos(){
+        ArrayList<Amigos> listaAmigos = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM amigos", null);
+        if(cursor.moveToFirst()){
+            do{
+                int id_usuario = cursor.getInt(0);
+                int id_amigo = cursor.getInt(1);
+                Amigos amigos = new Amigos(id_usuario, id_amigo);
+                listaAmigos.add(amigos);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaAmigos;
+
+    }
+    public Amigos getAmigos(int id_usuario, int id_amigos){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_usuario, id_amigo FROM amigos WHERE id_usuario = ? AND id_amigo = ?", new String[]{String.valueOf(id_usuario), String.valueOf(id_amigos)});
+        if(cursor != null && cursor.moveToFirst()){
+            int id_user = cursor.getInt(0);
+            int id_friend = cursor.getInt(1);
+            Amigos amigo = new Amigos(id_user, id_friend);
+            cursor.close();
+            db.close();
+            return amigo;
+        }
+        cursor.close();
+        db.close();
+        return null;
     }
     public ArrayList<Canal> getAllCanalesDelUsuario(int usuario_id){
         ArrayList<Canal> listaCanalesDelUsuario = new ArrayList<>();

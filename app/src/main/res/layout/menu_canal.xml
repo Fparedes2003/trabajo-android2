@@ -31,6 +31,7 @@
             android:textSize="28dp" />
 
         <ImageButton
+            android:id="@+id/opciones"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -150,6 +151,14 @@
                 android:text="Fecha"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cambiarEstado"
+                android:text="Cambiar estado de la tarea"
+                android:textColor="@color/black"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"/>
 
 
         </LinearLayout>

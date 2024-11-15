@@ -1,7 +1,8 @@
 package fabian.stomas.aplicacion4;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Usuario {
+public class Usuario implements Serializable {
     int ID;
     String Nombre;
     String Apellido;
