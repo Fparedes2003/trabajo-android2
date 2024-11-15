@@ -34,9 +34,9 @@ public class BuscarUsuarios extends AppCompatActivity implements SearchView.OnQu
         adapter3.setOnClickListener(view -> {
             int position = recyclerView.getChildAdapterPosition(view);
             Usuario clickedItem = usuarios.get(position);
-            //Intent intent = new Intent(BuscarUsuarios.this, Prueba.class);
-            //intent.putExtra("Usuario", clickedItem);
-            //startActivity(intent);
+            Intent intent = new Intent(BuscarUsuarios.this, PantallaEspera.class);
+            intent.putExtra("Usuario", clickedItem);
+            startActivity(intent);
         });
     }
 
