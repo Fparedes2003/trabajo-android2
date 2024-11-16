@@ -2,6 +2,8 @@ package fabian.stomas.aplicacion4;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import fabian.stomas.aplicacion4.databinding.VerAmigosBinding;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +32,13 @@ public class VerAmigos extends AppCompatActivity {
         }
         MyAdapter3 adapter3 = new MyAdapter3(itemlist);
         recyclerView.setAdapter(adapter3);
+        binding.returnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(VerAmigos.this, Editar.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

@@ -23,11 +23,11 @@ public class Usuario implements Serializable {
         this.Correo = Correo;
         this.id_amigo = id_amigo;
     }
-    public Usuario(int ID, String Nombre, String Apellido, String Telefono){
+    public Usuario(int ID, String Nombre, String Apellido, String Correo){
         this.ID = ID;
         this.Nombre = Nombre;
         this.Apellido = Apellido;
-        this.Telefono = Telefono;
+        this.Correo = Correo;
     }
     public Usuario(int ID, String Nombre, String Apellido, String Correo, String Telefono){
         this.ID = ID;

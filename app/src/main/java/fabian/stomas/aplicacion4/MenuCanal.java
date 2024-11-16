@@ -19,6 +19,7 @@ public class MenuCanal extends AppCompatActivity {
     String Nombre;
     String Descripcion;
     int idTareaDelCanal;
+    int admin;
     String TituloTarea;
     String descripcionTarea;
     String estadoTarea;
@@ -36,10 +37,13 @@ public class MenuCanal extends AppCompatActivity {
         binding = MenuCanalBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Canal canal = (Canal) getIntent().getSerializableExtra("Canal");
+
         idCanal = canal.getId();
         Nombre = canal.getNombre();
         Descripcion = canal.getDescripcion();
         idTareaDelCanal = canal.getTarea_ID();
+        admin = canal.getAdmin();
+        System.out.println("ADMIN DEL CANAL: "+admin);
         binding.nombreCanal.setText(Nombre);
         Tarea tarea = dtbmng.getTareaDelCanal(idTareaDelCanal);
         TituloTarea = tarea.getTitulo();
@@ -79,9 +83,17 @@ public class MenuCanal extends AppCompatActivity {
         binding.opciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MenuCanal.this, CanalConfig.class);
-                intent.putExtra("Canal", canal);
-                startActivity(intent);
+                if(Usuario.idActual == admin){
+                    Intent intent = new Intent(MenuCanal.this, CanalConfig.class);
+                    intent.putExtra("Canal", canal);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(MenuCanal.this, CanalConfigUsuario.class);
+                    intent.putExtra("Canal", canal);
+                    startActivity(intent);
+
+                }
+
 
             }
         });

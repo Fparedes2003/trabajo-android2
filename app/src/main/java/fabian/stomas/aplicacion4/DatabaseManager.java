@@ -283,10 +283,30 @@ public class DatabaseManager {
         db.close();
         return listaAmigos;
     }
+    public ArrayList<Usuario> getUsuariosDelCanal(int id_canal){
+        ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT usuario.ID, usuario.Nombre, usuario.Apellido, usuario.Correo FROM usuario " +
+                "INNER JOIN usuarios_canales ON usuarios_canales.id_usuario = usuario.ID " +
+                "WHERE usuarios_canales.id_canal = ?", new String[]{String.valueOf(id_canal)});
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Nombre = cursor.getString(1);
+                String Apellido = cursor.getString(2);
+                String Correo = cursor.getString(3);
+                Usuario usuario = new Usuario(ID, Nombre, Apellido, Correo);
+                listaUsuarios.add(usuario);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaUsuarios;
+    }
     public ArrayList<Canal> getAllCanalesDelUsuario(int usuario_id){
         ArrayList<Canal> listaCanalesDelUsuario = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT canales.ID, canales.Nombre, canales.Descripcion, tipo_canales.Nombre, canales.Tarea_ID FROM canales " +
+        Cursor cursor = db.rawQuery("SELECT canales.ID, canales.Nombre, canales.Descripcion, tipo_canales.Nombre, canales.Tarea_ID, canales.Admin_ID FROM canales " +
                 "INNER JOIN usuarios_canales ON canales.ID = usuarios_canales.id_canal " +
                 "INNER JOIN usuario ON usuario.ID = usuarios_canales.id_usuario " +
                 "INNER JOIN tipo_canales ON tipo_canales.ID = canales.Tipo_canal WHERE usuarios_canales.id_usuario = ?", new String[]{String.valueOf(usuario_id)});
@@ -297,7 +317,8 @@ public class DatabaseManager {
                 String Descripcion = cursor.getString(2);
                 String Tipo_canal = cursor.getString(3);
                 int Tarea_ID = cursor.getInt(4);
-                Canal canal = new Canal(ID, Nombre, Descripcion, Tipo_canal, Tarea_ID);
+                int Admin_ID = cursor.getInt(5);
+                Canal canal = new Canal(ID, Nombre, Descripcion, Tipo_canal, Tarea_ID, Admin_ID);
                 listaCanalesDelUsuario.add(canal);
             }while(cursor.moveToNext());
         }

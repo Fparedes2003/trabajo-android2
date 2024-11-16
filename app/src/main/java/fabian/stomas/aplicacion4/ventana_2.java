@@ -27,10 +27,10 @@ public class ventana_2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        ArrayList<Amigos> amigos = dtbmng.getAllAmigos();
-        for(Amigos i: amigos){
-            System.out.println("IDUSUARIO: "+i.id_usuario);
-            System.out.println("IDAMIGO: "+i.id_amigo);
+        ArrayList<UsuariosCanales> usuariosCanales = dtbmng.getAllUsuarios_canales();
+        for(UsuariosCanales i: usuariosCanales){
+            System.out.println("id usuario: "+i.id_usuario);
+            System.out.println("id canal: "+i.id_canal);
         }
         binding = Ventana2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
