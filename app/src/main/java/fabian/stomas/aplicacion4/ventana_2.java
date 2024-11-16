@@ -27,6 +27,11 @@ public class ventana_2 extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        ArrayList<Amigos> amigos = dtbmng.getAllAmigos();
+        for(Amigos i: amigos){
+            System.out.println("IDUSUARIO: "+i.id_usuario);
+            System.out.println("IDAMIGO: "+i.id_amigo);
+        }
         binding = Ventana2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {

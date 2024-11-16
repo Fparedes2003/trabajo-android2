@@ -51,7 +51,7 @@
         android:background="@color/white"
         android:elevation="5dp"
         android:ems="10"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:minHeight="30dp"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
