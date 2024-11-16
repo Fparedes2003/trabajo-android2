@@ -264,6 +264,25 @@ public class DatabaseManager {
         db.close();
         return null;
     }
+    public ArrayList<Usuario> getAmigosDelUsuario(int id_usuario){
+        ArrayList<Usuario> listaAmigos = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT usuario.Nombre, usuario.Apellido, usuario.Correo, amigos.id_amigo FROM usuario " +
+                "INNER JOIN amigos ON amigos.id_amigo = usuario.ID WHERE amigos.id_usuario = ?", new String[]{String.valueOf(id_usuario)});
+        if(cursor.moveToFirst()){
+            do{
+                String amigoNombre = cursor.getString(0);
+                String amigoApellido = cursor.getString(1);
+                String amigoCorreo = cursor.getString(2);
+                int id_amigo = cursor.getInt(3);
+                Usuario usuario = new Usuario(amigoNombre, amigoApellido, amigoCorreo, id_amigo);
+                listaAmigos.add(usuario);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaAmigos;
+    }
     public ArrayList<Canal> getAllCanalesDelUsuario(int usuario_id){
         ArrayList<Canal> listaCanalesDelUsuario = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
