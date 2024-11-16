@@ -505,38 +505,5 @@ public class DatabaseManager {
         db.close();
         return listaUsuarios_canales;
     }
-    public ArrayList<String> getTableNames(SQLiteDatabase db) {
-        ArrayList<String> tableNames = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-        if (cursor.moveToFirst()) {
-            do {
-                tableNames.add(cursor.getString(0));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return tableNames;
-    }
-    public ArrayList<String> getColumnNames(SQLiteDatabase db, String tableName) {
-        ArrayList<String> columnNames = new ArrayList<>();
-        Cursor cursor = db.rawQuery("PRAGMA table_info(" + tableName + ")", null);
-        if (cursor.moveToFirst()) {
-            do {
-                columnNames.add(cursor.getString(1));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return columnNames;
-    }
-    public void printDatabaseInfo() {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        ArrayList<String> tableNames = getTableNames(db);
-        for (String tableName : tableNames) {
-            System.out.println("Table: " + tableName);
-            ArrayList<String> columnNames = getColumnNames(db, tableName);
-            for (String columnName : columnNames) {
-                System.out.println("  Column: " + columnName);
-            }
-        }
-        db.close();
-    }
+
 }
