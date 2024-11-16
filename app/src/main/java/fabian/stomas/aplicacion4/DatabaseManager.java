@@ -55,6 +55,20 @@ public class DatabaseManager {
         db.update("canales", values, "ID = ?", new String[]{String.valueOf(idCanal)});
         db.close();
     }
+    public void updateEstadoSolicitudAceptada(int id_solicitud){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", "ACEPTADA");
+        db.update("solicitudes", values, "ID = ?", new String[]{String.valueOf(id_solicitud)});
+        db.close();
+    }
+    public void updateEstadoSolicitudRechazada(int id_solicitud){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", "RECHAZADA");
+        db.update("solicitudes", values, "ID = ?", new String[]{String.valueOf(id_solicitud)});
+        db.close();
+    }
     public int insertCanal(Canal canal){
         int id_canal = 0;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -136,6 +150,11 @@ public class DatabaseManager {
         db.insert("solicitudes", null, values);
         db.close();
     }
+    public void deleteAmigo(int id_usuario, int id_amigo){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("amigos", "id_usuario = ? AND id_amigo = ?", new String[]{String.valueOf(id_usuario), String.valueOf(id_amigo)});
+        db.close();
+    }
     public ArrayList<Usuario> getAllUsuarios(){
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -179,7 +198,7 @@ public class DatabaseManager {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT solicitudes.ID, solicitudes.id_remitente, usuario.Nombre, usuario.Apellido, usuario.Correo, solicitudes.Estado FROM solicitudes " +
                 "INNER JOIN usuario ON usuario.ID = solicitudes.id_remitente " +
-                "WHERE solicitudes.id_receptor = ?", new String[]{String.valueOf(id_receptor)});
+                "WHERE solicitudes.id_receptor = ? AND solicitudes.Estado = 'PENDIENTE'", new String[]{String.valueOf(id_receptor)});
         if(cursor.moveToFirst()){
             do{
                 int ID = cursor.getInt(0);
