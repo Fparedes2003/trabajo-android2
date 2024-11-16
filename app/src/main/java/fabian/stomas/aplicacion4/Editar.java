@@ -47,5 +47,12 @@ public class Editar extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.verSolicitudes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Editar.this, SolicitudesAmistad.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -127,6 +127,15 @@ public class DatabaseManager {
         db.insert("amigos", null, values);
         db.close();
     }
+    public void insertSolicitud(Solicitudes solicitudes){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", solicitudes.getEstado());
+        values.put("id_remitente", solicitudes.getId_remitente());
+        values.put("id_receptor", solicitudes.getId_receptor());
+        db.insert("solicitudes", null, values);
+        db.close();
+    }
     public ArrayList<Usuario> getAllUsuarios(){
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -146,6 +155,63 @@ public class DatabaseManager {
         cursor.close();
         db.close();
         return listaUsuarios;
+    }
+    public ArrayList<Solicitudes> getAllSolicitudes(){
+        ArrayList<Solicitudes> listaSolicitudes = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM solicitudes", null);
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Estado = cursor.getString(1);
+                int id_remitente = cursor.getInt(2);
+                int id_receptor = cursor.getInt(3);
+                Solicitudes solicitud = new Solicitudes(ID, Estado, id_remitente, id_receptor);
+                listaSolicitudes.add(solicitud);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaSolicitudes;
+    }
+    public ArrayList<Solicitudes> getSolicitudesDelUsuario(int id_receptor){
+        ArrayList<Solicitudes> listaSolicitudesDeUsuario = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT solicitudes.ID, solicitudes.id_remitente, usuario.Nombre, usuario.Apellido, usuario.Correo, solicitudes.Estado FROM solicitudes " +
+                "INNER JOIN usuario ON usuario.ID = solicitudes.id_remitente " +
+                "WHERE solicitudes.id_receptor = ?", new String[]{String.valueOf(id_receptor)});
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                int id_remitente = cursor.getInt(1);
+                String NombreRemitente = cursor.getString(2);
+                String ApellidoRemitente = cursor.getString(3);
+                String CorreoRemitente = cursor.getString(4);
+                String Estado = cursor.getString(5);
+                Solicitudes solicitudes = new Solicitudes(ID, id_remitente, NombreRemitente, ApellidoRemitente, CorreoRemitente, Estado);
+                listaSolicitudesDeUsuario.add(solicitudes);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaSolicitudesDeUsuario;
+    }
+    public Solicitudes getSolicitudVerificacion(int id_remitente, int id_receptor){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM solicitudes WHERE id_remitente = ? AND id_receptor = ? AND Estado = 'PENDIENTE'", new String[]{String.valueOf(id_remitente), String.valueOf(id_receptor)});
+        if(cursor != null && cursor.moveToFirst()){
+            int ID = cursor.getInt(0);
+            String Estado = cursor.getString(1);
+            int id_remit = cursor.getInt(2);
+            int id_recep = cursor.getInt(3);
+            Solicitudes solicitud = new Solicitudes(ID, Estado, id_remit, id_recep);
+            cursor.close();
+            db.close();
+            return solicitud;
+        }
+        cursor.close();
+        db.close();
+        return null;
     }
     public ArrayList<Amigos> getAllAmigos(){
         ArrayList<Amigos> listaAmigos = new ArrayList<>();
