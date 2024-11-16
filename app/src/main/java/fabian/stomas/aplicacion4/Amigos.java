@@ -3,9 +3,19 @@ package fabian.stomas.aplicacion4;
 public class Amigos {
     int id_usuario;
     int id_amigo;
+    String amigoNombre;
+    String amigoApellido;
+    String amigoCorreo;
 
     public Amigos(){
 
+    }
+
+    public Amigos(String amigoNombre, String amigoApellido, String amigoCorreo, int id_amigo){
+        this.amigoNombre = amigoNombre;
+        this.amigoApellido = amigoApellido;
+        this.amigoCorreo = amigoCorreo;
+        this.id_amigo = id_amigo;
     }
 
     public Amigos(int id_usuario, int id_amigo){

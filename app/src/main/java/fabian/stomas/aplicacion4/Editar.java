@@ -54,5 +54,12 @@ public class Editar extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.FriendList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Editar.this, VerAmigos.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -25,6 +25,7 @@ public class Perfilnbtn extends AppCompatActivity {
         setContentView(binding.getRoot());
         Usuario usuario = (Usuario) getIntent().getSerializableExtra("Usuario");
         idUsuario = usuario.getID();
+        System.out.println(idUsuario);
         Nombre = usuario.getNombre();
         Apellido = usuario.getApellido();
         Correo = usuario.getCorreo();

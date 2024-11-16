@@ -2,6 +2,7 @@ package fabian.stomas.aplicacion4;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import fabian.stomas.aplicacion4.databinding.SolicitudesAmistadBinding;
 
@@ -38,8 +39,13 @@ public class SolicitudesAmistad extends AppCompatActivity {
             intent.putExtra("Solicitudes", clickedItem);
             startActivity(intent);
         });
-
-
+        binding.returnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SolicitudesAmistad.this, Editar.class);
+                startActivity(intent);
+            }
+        });
 
 
 
