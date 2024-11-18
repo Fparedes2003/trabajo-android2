@@ -92,7 +92,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardTarea"
         android:layout_width="389dp"
-        android:layout_height="218dp"
+        android:layout_height="240dp"
         android:layout_marginStart="9dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="13dp"
@@ -105,7 +105,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="240dp"
+            android:layout_height="255dp"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -167,12 +167,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerAvances"
-        android:layout_width="416dp"
-        android:layout_height="322dp"
+        android:layout_width="412dp"
+        android:layout_height="309dp"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardTarea"/>
+        app:layout_constraintTop_toBottomOf="@+id/cardTarea" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

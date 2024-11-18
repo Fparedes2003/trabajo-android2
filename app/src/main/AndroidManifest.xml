@@ -101,6 +101,14 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".EliminarAmigosCanal"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".EliminarUsuarioDeCanal"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ventana_2"
             android:exported="true">
             <intent-filter>
