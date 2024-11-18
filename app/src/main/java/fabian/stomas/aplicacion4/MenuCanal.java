@@ -100,11 +100,13 @@ public class MenuCanal extends AppCompatActivity {
         binding.cambiarEstado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dtbmng.updateEstadoTarea(idTareaDelCanal);
-                Toast.makeText(MenuCanal.this, "SE HA CAMBIADO EL ESTADO DE LA TAREA", Toast.LENGTH_SHORT).show();
+                if(estadoTarea.equals("Terminada")){
+                    Toast.makeText(MenuCanal.this, "LA TAREA YA FUE ACTUALIZADA", Toast.LENGTH_SHORT).show();
+                }else{
+                    dtbmng.updateEstadoTarea(idTareaDelCanal);
+                    Toast.makeText(MenuCanal.this, "SE HA CAMBIADO EL ESTADO DE LA TAREA", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
     }
-
 }

@@ -42,6 +42,14 @@ public class CanalConfig extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.BtnQuitarUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CanalConfig.this, EliminarAmigosCanal.class);
+                intent.putExtra("Canal", canal);
+                startActivity(intent);
+            }
+        });
 
     }
 

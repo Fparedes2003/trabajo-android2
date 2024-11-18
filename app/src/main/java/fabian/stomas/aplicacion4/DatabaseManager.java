@@ -155,6 +155,11 @@ public class DatabaseManager {
         db.delete("amigos", "id_usuario = ? AND id_amigo = ?", new String[]{String.valueOf(id_usuario), String.valueOf(id_amigo)});
         db.close();
     }
+    public void deleteUsuariosDelCanal(int id_usuario, int id_canal){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("usuarios_canales", "id_usuario = ? AND id_canal = ?", new String[]{String.valueOf(id_usuario), String.valueOf(id_canal)});
+        db.close();
+    }
     public ArrayList<Usuario> getAllUsuarios(){
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
