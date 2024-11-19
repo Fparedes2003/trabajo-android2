@@ -118,6 +118,16 @@ public class DatabaseManager {
         db.close();
         return id_tarea;
     }
+    public void insertApunte(Apuntes apuntes){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Titulo", apuntes.getTitulo());
+        values.put("Contenido", apuntes.getContenido());
+        values.put("Fecha_creacion", apuntes.getFecha_creaciondb());
+        values.put("id_propietario", apuntes.getId_propietario());
+        db.insert("apuntes", null, values);
+        db.close();
+    }
     public void insertTipoCanal(Tipo_canal tipo_canal){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -180,6 +190,32 @@ public class DatabaseManager {
         db.close();
         return listaUsuarios;
     }
+    public ArrayList<Apuntes> getAllApuntes(){
+        ArrayList<Apuntes> listaApuntes = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT ID, Titulo, Contenido, Fecha_creacion, id_propietario FROM apuntes", null);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Titulo = cursor.getString(1);
+                String Contenido = cursor.getString(2);
+                String Fecha_creacion = cursor.getString(3);
+                int id_propietario = cursor.getInt(4);
+                Date Fecha_creacion2 = null;
+                try{
+                    Fecha_creacion2 = formatter.parse(Fecha_creacion);
+                }catch (Exception e){
+
+                }
+                Apuntes apunte = new Apuntes(ID, Titulo, Contenido, Fecha_creacion2, id_propietario);
+                listaApuntes.add(apunte);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaApuntes;
+    }
     public ArrayList<Solicitudes> getAllSolicitudes(){
         ArrayList<Solicitudes> listaSolicitudes = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -219,6 +255,36 @@ public class DatabaseManager {
         cursor.close();
         db.close();
         return listaSolicitudesDeUsuario;
+    }
+    public ArrayList<Apuntes> getApuntesDelUsuario(int id_usuario){
+        ArrayList<Apuntes> listaApuntes = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT apuntes.ID, apuntes.Titulo, apuntes.Contenido, apuntes.Fecha_creacion, " +
+                "usuario.Nombre, usuario.Apellido FROM apuntes " +
+                "INNER JOIN usuario ON usuario.ID = apuntes.id_propietario " +
+                "WHERE apuntes.id_propietario = ?", new String[]{String.valueOf(id_usuario)});
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Titulo = cursor.getString(1);
+                String Contenido = cursor.getString(2);
+                String Fecha_creacion = cursor.getString(3);
+                String usuarioNombre = cursor.getString(4);
+                String usuarioApellido = cursor.getString(5);
+                Date Fecha_creacion2 = null;
+                try{
+                    Fecha_creacion2 = formatter.parse(Fecha_creacion);
+                }catch (Exception e){
+
+                }
+                Apuntes apuntes = new Apuntes(ID, Titulo, Contenido, Fecha_creacion2, usuarioNombre, usuarioApellido);
+                listaApuntes.add(apuntes);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaApuntes;
     }
     public Solicitudes getSolicitudVerificacion(int id_remitente, int id_receptor){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
