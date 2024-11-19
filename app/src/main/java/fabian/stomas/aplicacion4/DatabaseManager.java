@@ -311,7 +311,7 @@ public class DatabaseManager {
     public ArrayList<Canal> getAllCanalesDelUsuario(int usuario_id){
         ArrayList<Canal> listaCanalesDelUsuario = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT canales.ID, canales.Nombre, canales.Descripcion, tipo_canales.Nombre, canales.Tarea_ID, canales.Admin_ID FROM canales " +
+        Cursor cursor = db.rawQuery("SELECT canales.ID, canales.Nombre, canales.Descripcion, tipo_canales.Nombre, canales.Tipo_canal, canales.Tarea_ID, canales.Admin_ID FROM canales " +
                 "INNER JOIN usuarios_canales ON canales.ID = usuarios_canales.id_canal " +
                 "INNER JOIN usuario ON usuario.ID = usuarios_canales.id_usuario " +
                 "INNER JOIN tipo_canales ON tipo_canales.ID = canales.Tipo_canal WHERE usuarios_canales.id_usuario = ?", new String[]{String.valueOf(usuario_id)});
@@ -321,9 +321,10 @@ public class DatabaseManager {
                 String Nombre = cursor.getString(1);
                 String Descripcion = cursor.getString(2);
                 String Tipo_canal = cursor.getString(3);
-                int Tarea_ID = cursor.getInt(4);
-                int Admin_ID = cursor.getInt(5);
-                Canal canal = new Canal(ID, Nombre, Descripcion, Tipo_canal, Tarea_ID, Admin_ID);
+                int Tipo_canalID = cursor.getInt(4);
+                int Tarea_ID = cursor.getInt(5);
+                int Admin_ID = cursor.getInt(6);
+                Canal canal = new Canal(ID, Nombre, Descripcion, Tipo_canal, Tipo_canalID, Tarea_ID, Admin_ID);
                 listaCanalesDelUsuario.add(canal);
             }while(cursor.moveToNext());
         }

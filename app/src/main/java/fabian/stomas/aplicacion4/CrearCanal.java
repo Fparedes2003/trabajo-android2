@@ -56,7 +56,14 @@ public class CrearCanal extends AppCompatActivity {
                     usuariosCanales.setId_canal(Canal.idCanal);
                     dtbsmng.insertUsuarios_canales(usuariosCanales);
                     Toast.makeText(CrearCanal.this, "SE HA CREADO TU CANAL", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CrearCanal.this, CrearTarea.class);
+                    Intent intent;
+                    if(tipo_canalId == 1 || tipo_canalId == 2){
+                        intent = new Intent(CrearCanal.this, CrearTarea.class);
+
+                    }else{
+                        intent = new Intent(CrearCanal.this, Menu.class);
+
+                    }
                     startActivity(intent);
                 }
             }

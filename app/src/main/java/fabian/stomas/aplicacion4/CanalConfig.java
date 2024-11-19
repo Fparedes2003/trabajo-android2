@@ -21,9 +21,16 @@ public class CanalConfig extends AppCompatActivity {
         binding.returnVistas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CanalConfig.this, MenuCanal.class);
-                intent.putExtra("Canal", canal);
-                startActivity(intent);
+                if(canal.getTipo_canal() == 1 || canal.getTipo_canal() == 2){
+                    Intent intent = new Intent(CanalConfig.this, MenuCanal.class);
+                    intent.putExtra("Canal", canal);
+                    startActivity(intent);
+
+                }else{
+                    Intent intent = new Intent(CanalConfig.this, MenuCanalApuntes.class);
+                    intent.putExtra("Canal", canal);
+                    startActivity(intent);
+                }
             }
         });
         binding.BtnVerUsuarios.setOnClickListener(new View.OnClickListener() {
