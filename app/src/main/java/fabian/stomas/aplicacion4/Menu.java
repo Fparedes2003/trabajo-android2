@@ -35,14 +35,14 @@ public class Menu extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Canal> itemList = new ArrayList<>();
         for(Canal i: canales){
-            itemList.add(new Canal( i.Id,i.Nombre,i.Descripcion,i.Tipo_canaldb, i.Tarea_ID, i.admin));
+            itemList.add(new Canal( i.Id,i.Nombre,i.Descripcion,i.Tipo_canaldb, i.Tipo_canal, i.Tarea_ID, i.admin));
         }
         MyAdapter adapter = new MyAdapter(itemList);
         recyclerView.setAdapter(adapter);
         adapter.setOnClickListener(view -> {
             int position = recyclerView.getChildAdapterPosition(view);
             Canal clickedItem = itemList.get(position);
-            Intent intent = new Intent(Menu.this, MenuCanal.class);
+            Intent intent = new Intent(Menu.this, PantallaEsperaCanal.class);
             intent.putExtra("Canal", clickedItem);
             startActivity(intent);
         });

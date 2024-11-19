@@ -109,6 +109,14 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".MenuCanalApuntes"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".PantallaEsperaCanal"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ventana_2"
             android:exported="true">
             <intent-filter>
