@@ -117,6 +117,10 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".VerApuntes"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ventana_2"
             android:exported="true">
             <intent-filter>
