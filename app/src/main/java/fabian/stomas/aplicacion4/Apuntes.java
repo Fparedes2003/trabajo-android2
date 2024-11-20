@@ -1,7 +1,8 @@
 package fabian.stomas.aplicacion4;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Apuntes {
+public class Apuntes implements Serializable {
     int ID;
     String Titulo;
     String Contenido;
