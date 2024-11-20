@@ -143,6 +143,14 @@ public class DatabaseManager {
         db.insert("usuarios_canales", null, values);
         db.close();
     }
+    public void insertCanales_apuntes(int id_apunte, int id_canal){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_apunte", id_apunte);
+        values.put("id_canal", id_canal);
+        db.insert("canales_apuntes", null, values);
+        db.close();
+    }
     public void insertAmigos(Amigos amigos){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -285,6 +293,37 @@ public class DatabaseManager {
         cursor.close();
         db.close();
         return listaApuntes;
+    }
+    public ArrayList<Apuntes> getApuntesDelCanal(int id_canal){
+        ArrayList<Apuntes> listaApuntesDelCanal = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT apuntes.ID, apuntes.Titulo, apuntes.Contenido, apuntes.Fecha_creacion, " +
+                "usuario.Nombre, usuario.Apellido FROM canales_apuntes " +
+                "INNER JOIN apuntes ON apuntes.ID = canales_apuntes.id_apunte " +
+                "INNER JOIN usuario ON usuario.ID = apuntes.id_propietario " +
+                "WHERE canales_apuntes.id_canal = ?", new String[]{String.valueOf(id_canal)});
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Titulo = cursor.getString(1);
+                String Contenido = cursor.getString(2);
+                String Fecha_creacion = cursor.getString(3);
+                String usuarioNombre = cursor.getString(4);
+                String usuarioApellido = cursor.getString(5);
+                Date Fecha_creacion2 = null;
+                try{
+                    Fecha_creacion2 = formatter.parse(Fecha_creacion);
+                }catch (Exception e){
+
+                }
+                Apuntes apuntes = new Apuntes(ID, Titulo, Contenido, Fecha_creacion2, usuarioNombre, usuarioApellido);
+                listaApuntesDelCanal.add(apuntes);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaApuntesDelCanal;
     }
     public Solicitudes getSolicitudVerificacion(int id_remitente, int id_receptor){
         SQLiteDatabase db = dbHelper.getReadableDatabase();

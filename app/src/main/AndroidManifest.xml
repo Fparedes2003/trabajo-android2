@@ -121,6 +121,14 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".AgregarApunte"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".AgregarApunteCanal"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ventana_2"
             android:exported="true">
             <intent-filter>
