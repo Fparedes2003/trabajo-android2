@@ -6,48 +6,59 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/material_dynamic_neutral20"
-        android:contentDescription="TODO"
-        tools:ignore="MissingConstraints">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:titleTextColor="@color/white"
+        tools:ignore="ExtraText,MissingConstraints">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/returnView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_revert" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="boton para retroceder"
+            android:src="@android:drawable/ic_menu_revert"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp" />
 
+        <!-- Título centrado -->
         <TextView
             android:id="@+id/nombre_canal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="sans-serif"
+            android:gravity="center"
             android:text="Nombre del canal"
             android:textColor="@color/white"
-            android:textSize="28dp" />
+            android:textSize="20sp"
+            android:layout_marginStart="35dp"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/chat"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:drawable/stat_notify_chat"
+            android:contentDescription="botón que lleva al chat"
+            tools:ignore="SpeakableTextPresentCheck"
+            android:layout_marginStart="70dp" />
 
         <ImageButton
             android:id="@+id/opciones"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:src="@drawable/opciones"
+            android:background="@color/material_dynamic_neutral20"
+            android:src="@drawable/options"
             tools:ignore="SpeakableTextPresentCheck"
+            android:contentDescription="botón que tiene las opciones"
             tools:layout_editor_absoluteX="347dp" />
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@drawable/chat"
-            tools:ignore="SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteX="283dp" />
     </androidx.appcompat.widget.Toolbar>
-
 
     <LinearLayout
         android:id="@+id/footerLayout"
@@ -64,29 +75,26 @@
         <ImageButton
             android:id="@+id/llamada"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/black"
-            android:contentDescription="teléfono"
-            android:src="@drawable/telefono" />
+            android:background="@drawable/phone"
+            android:contentDescription="teléfono" />
 
         <ImageButton
             android:id="@+id/Agregar"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:layout_weight="1"
-            android:background="@color/black"
-            android:backgroundTint="@color/black"
-            android:contentDescription="agregar"
-            android:src="@drawable/agregar" />
+            android:background="@drawable/mas"
+            android:contentDescription="agregar" />
 
         <ImageButton
             android:id="@+id/Videollamada"
             android:layout_width="0dp"
             android:layout_height="91dp"
             android:layout_weight="1"
-            android:contentDescription="videollamada"
-            android:src="@drawable/videocam" />
+            android:background="@drawable/videocall"
+            android:contentDescription="videollamada" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
