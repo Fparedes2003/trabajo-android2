@@ -3,6 +3,7 @@ import fabian.stomas.aplicacion4.databinding.BuscarUsuariosBinding;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
 
 import androidx.activity.EdgeToEdge;
@@ -37,6 +38,14 @@ public class BuscarUsuarios extends AppCompatActivity implements SearchView.OnQu
             Intent intent = new Intent(BuscarUsuarios.this, PantallaEspera.class);
             intent.putExtra("Usuario", clickedItem);
             startActivity(intent);
+        });
+
+        binding.returnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuscarUsuarios.this, Menu.class);
+                startActivity(intent);
+            }
         });
     }
 

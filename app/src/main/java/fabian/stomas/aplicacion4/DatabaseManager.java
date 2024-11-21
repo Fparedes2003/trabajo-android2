@@ -55,6 +55,20 @@ public class DatabaseManager {
         db.update("canales", values, "ID = ?", new String[]{String.valueOf(idCanal)});
         db.close();
     }
+    public void updateEstadoSolicitudAceptada(int id_solicitud){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", "ACEPTADA");
+        db.update("solicitudes", values, "ID = ?", new String[]{String.valueOf(id_solicitud)});
+        db.close();
+    }
+    public void updateEstadoSolicitudRechazada(int id_solicitud){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", "RECHAZADA");
+        db.update("solicitudes", values, "ID = ?", new String[]{String.valueOf(id_solicitud)});
+        db.close();
+    }
     public int insertCanal(Canal canal){
         int id_canal = 0;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -104,6 +118,16 @@ public class DatabaseManager {
         db.close();
         return id_tarea;
     }
+    public void insertApunte(Apuntes apuntes){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Titulo", apuntes.getTitulo());
+        values.put("Contenido", apuntes.getContenido());
+        values.put("Fecha_creacion", apuntes.getFecha_creaciondb());
+        values.put("id_propietario", apuntes.getId_propietario());
+        db.insert("apuntes", null, values);
+        db.close();
+    }
     public void insertTipoCanal(Tipo_canal tipo_canal){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -119,12 +143,39 @@ public class DatabaseManager {
         db.insert("usuarios_canales", null, values);
         db.close();
     }
+    public void insertCanales_apuntes(int id_apunte, int id_canal){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id_apunte", id_apunte);
+        values.put("id_canal", id_canal);
+        db.insert("canales_apuntes", null, values);
+        db.close();
+    }
     public void insertAmigos(Amigos amigos){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id_usuario", amigos.getId_usuario());
         values.put("id_amigo", amigos.getId_amigo());
         db.insert("amigos", null, values);
+        db.close();
+    }
+    public void insertSolicitud(Solicitudes solicitudes){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", solicitudes.getEstado());
+        values.put("id_remitente", solicitudes.getId_remitente());
+        values.put("id_receptor", solicitudes.getId_receptor());
+        db.insert("solicitudes", null, values);
+        db.close();
+    }
+    public void deleteAmigo(int id_usuario, int id_amigo){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("amigos", "id_usuario = ? AND id_amigo = ?", new String[]{String.valueOf(id_usuario), String.valueOf(id_amigo)});
+        db.close();
+    }
+    public void deleteUsuariosDelCanal(int id_usuario, int id_canal){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete("usuarios_canales", "id_usuario = ? AND id_canal = ?", new String[]{String.valueOf(id_usuario), String.valueOf(id_canal)});
         db.close();
     }
     public ArrayList<Usuario> getAllUsuarios(){
@@ -146,6 +197,180 @@ public class DatabaseManager {
         cursor.close();
         db.close();
         return listaUsuarios;
+    }
+    public ArrayList<Apuntes> getAllApuntes(){
+        ArrayList<Apuntes> listaApuntes = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT ID, Titulo, Contenido, Fecha_creacion, id_propietario FROM apuntes", null);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Titulo = cursor.getString(1);
+                String Contenido = cursor.getString(2);
+                String Fecha_creacion = cursor.getString(3);
+                int id_propietario = cursor.getInt(4);
+                Date Fecha_creacion2 = null;
+                try{
+                    Fecha_creacion2 = formatter.parse(Fecha_creacion);
+                }catch (Exception e){
+
+                }
+                Apuntes apunte = new Apuntes(ID, Titulo, Contenido, Fecha_creacion2, id_propietario);
+                listaApuntes.add(apunte);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaApuntes;
+    }
+    public ArrayList<Solicitudes> getAllSolicitudes(){
+        ArrayList<Solicitudes> listaSolicitudes = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM solicitudes", null);
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Estado = cursor.getString(1);
+                int id_remitente = cursor.getInt(2);
+                int id_receptor = cursor.getInt(3);
+                Solicitudes solicitud = new Solicitudes(ID, Estado, id_remitente, id_receptor);
+                listaSolicitudes.add(solicitud);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaSolicitudes;
+    }
+    public ArrayList<Solicitudes> getSolicitudesDelUsuario(int id_receptor){
+        ArrayList<Solicitudes> listaSolicitudesDeUsuario = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT solicitudes.ID, solicitudes.id_remitente, usuario.Nombre, usuario.Apellido, usuario.Correo, solicitudes.Estado FROM solicitudes " +
+                "INNER JOIN usuario ON usuario.ID = solicitudes.id_remitente " +
+                "WHERE solicitudes.id_receptor = ? AND solicitudes.Estado = 'PENDIENTE'", new String[]{String.valueOf(id_receptor)});
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                int id_remitente = cursor.getInt(1);
+                String NombreRemitente = cursor.getString(2);
+                String ApellidoRemitente = cursor.getString(3);
+                String CorreoRemitente = cursor.getString(4);
+                String Estado = cursor.getString(5);
+                Solicitudes solicitudes = new Solicitudes(ID, id_remitente, NombreRemitente, ApellidoRemitente, CorreoRemitente, Estado);
+                listaSolicitudesDeUsuario.add(solicitudes);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaSolicitudesDeUsuario;
+    }
+    public ArrayList<Apuntes> getApuntesDelUsuario(int id_usuario){
+        ArrayList<Apuntes> listaApuntes = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT apuntes.ID, apuntes.Titulo, apuntes.Contenido, apuntes.Fecha_creacion, " +
+                "usuario.Nombre, usuario.Apellido FROM apuntes " +
+                "INNER JOIN usuario ON usuario.ID = apuntes.id_propietario " +
+                "WHERE apuntes.id_propietario = ?", new String[]{String.valueOf(id_usuario)});
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Titulo = cursor.getString(1);
+                String Contenido = cursor.getString(2);
+                String Fecha_creacion = cursor.getString(3);
+                String usuarioNombre = cursor.getString(4);
+                String usuarioApellido = cursor.getString(5);
+                Date Fecha_creacion2 = null;
+                try{
+                    Fecha_creacion2 = formatter.parse(Fecha_creacion);
+                }catch (Exception e){
+
+                }
+                Apuntes apuntes = new Apuntes(ID, Titulo, Contenido, Fecha_creacion2, usuarioNombre, usuarioApellido);
+                listaApuntes.add(apuntes);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaApuntes;
+    }
+    public ArrayList<Apuntes> getApuntesDelCanal(int id_canal){
+        ArrayList<Apuntes> listaApuntesDelCanal = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT apuntes.ID, apuntes.Titulo, apuntes.Contenido, apuntes.Fecha_creacion, " +
+                "usuario.Nombre, usuario.Apellido FROM canales_apuntes " +
+                "INNER JOIN apuntes ON apuntes.ID = canales_apuntes.id_apunte " +
+                "INNER JOIN usuario ON usuario.ID = apuntes.id_propietario " +
+                "WHERE canales_apuntes.id_canal = ?", new String[]{String.valueOf(id_canal)});
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Titulo = cursor.getString(1);
+                String Contenido = cursor.getString(2);
+                String Fecha_creacion = cursor.getString(3);
+                String usuarioNombre = cursor.getString(4);
+                String usuarioApellido = cursor.getString(5);
+                Date Fecha_creacion2 = null;
+                try{
+                    Fecha_creacion2 = formatter.parse(Fecha_creacion);
+                }catch (Exception e){
+
+                }
+                Apuntes apuntes = new Apuntes(ID, Titulo, Contenido, Fecha_creacion2, usuarioNombre, usuarioApellido);
+                listaApuntesDelCanal.add(apuntes);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaApuntesDelCanal;
+    }
+    public Solicitudes getSolicitudVerificacion(int id_remitente, int id_receptor){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM solicitudes WHERE id_remitente = ? AND id_receptor = ? AND Estado = 'PENDIENTE'", new String[]{String.valueOf(id_remitente), String.valueOf(id_receptor)});
+        if(cursor != null && cursor.moveToFirst()){
+            int ID = cursor.getInt(0);
+            String Estado = cursor.getString(1);
+            int id_remit = cursor.getInt(2);
+            int id_recep = cursor.getInt(3);
+            Solicitudes solicitud = new Solicitudes(ID, Estado, id_remit, id_recep);
+            cursor.close();
+            db.close();
+            return solicitud;
+        }
+        cursor.close();
+        db.close();
+        return null;
+    }
+    public UsuariosCanales verificarSiElUsuarioEstaEnCanal(int id_usuario, int id_canal){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_usuario, id_canal FROM usuarios_canales WHERE id_usuario = ? AND id_canal = ?", new String[]{String.valueOf(id_usuario), String.valueOf(id_canal)});
+        if(cursor != null && cursor.moveToFirst()){
+            int id_usuario1 = cursor.getInt(0);
+            int id_canal1 = cursor.getInt(1);
+            UsuariosCanales usuariosCanales = new UsuariosCanales(id_usuario1, id_canal1);
+            cursor.close();
+            db.close();
+            return usuariosCanales;
+        }
+        cursor.close();
+        db.close();
+        return null;
+    }
+    public CanalesApuntes verificarApunteEnCanal(int id_apunte, int id_canal){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_apunte, id_canal FROM canales_apuntes WHERE id_apunte = ? AND id_canal = ?", new String[]{String.valueOf(id_apunte), String.valueOf(id_canal)});
+        if(cursor != null && cursor.moveToFirst()){
+            int id_apunte1 = cursor.getInt(0);
+            int id_canal1 = cursor.getInt(1);
+            CanalesApuntes canalesApuntes = new CanalesApuntes(id_apunte1, id_canal1);
+            cursor.close();
+            db.close();
+            return canalesApuntes;
+        }
+        cursor.close();
+        db.close();
+        return null;
     }
     public ArrayList<Amigos> getAllAmigos(){
         ArrayList<Amigos> listaAmigos = new ArrayList<>();
@@ -179,10 +404,49 @@ public class DatabaseManager {
         db.close();
         return null;
     }
+    public ArrayList<Usuario> getAmigosDelUsuario(int id_usuario){
+        ArrayList<Usuario> listaAmigos = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT usuario.Nombre, usuario.Apellido, usuario.Correo, amigos.id_amigo FROM usuario " +
+                "INNER JOIN amigos ON amigos.id_amigo = usuario.ID WHERE amigos.id_usuario = ?", new String[]{String.valueOf(id_usuario)});
+        if(cursor.moveToFirst()){
+            do{
+                String amigoNombre = cursor.getString(0);
+                String amigoApellido = cursor.getString(1);
+                String amigoCorreo = cursor.getString(2);
+                int id_amigo = cursor.getInt(3);
+                Usuario usuario = new Usuario(amigoNombre, amigoApellido, amigoCorreo, id_amigo);
+                listaAmigos.add(usuario);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaAmigos;
+    }
+    public ArrayList<Usuario> getUsuariosDelCanal(int id_canal){
+        ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT usuario.ID, usuario.Nombre, usuario.Apellido, usuario.Correo FROM usuario " +
+                "INNER JOIN usuarios_canales ON usuarios_canales.id_usuario = usuario.ID " +
+                "WHERE usuarios_canales.id_canal = ?", new String[]{String.valueOf(id_canal)});
+        if(cursor.moveToFirst()){
+            do{
+                int ID = cursor.getInt(0);
+                String Nombre = cursor.getString(1);
+                String Apellido = cursor.getString(2);
+                String Correo = cursor.getString(3);
+                Usuario usuario = new Usuario(ID, Nombre, Apellido, Correo);
+                listaUsuarios.add(usuario);
+            }while(cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return listaUsuarios;
+    }
     public ArrayList<Canal> getAllCanalesDelUsuario(int usuario_id){
         ArrayList<Canal> listaCanalesDelUsuario = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT canales.ID, canales.Nombre, canales.Descripcion, tipo_canales.Nombre, canales.Tarea_ID FROM canales " +
+        Cursor cursor = db.rawQuery("SELECT canales.ID, canales.Nombre, canales.Descripcion, tipo_canales.Nombre, canales.Tipo_canal, canales.Tarea_ID, canales.Admin_ID FROM canales " +
                 "INNER JOIN usuarios_canales ON canales.ID = usuarios_canales.id_canal " +
                 "INNER JOIN usuario ON usuario.ID = usuarios_canales.id_usuario " +
                 "INNER JOIN tipo_canales ON tipo_canales.ID = canales.Tipo_canal WHERE usuarios_canales.id_usuario = ?", new String[]{String.valueOf(usuario_id)});
@@ -192,8 +456,10 @@ public class DatabaseManager {
                 String Nombre = cursor.getString(1);
                 String Descripcion = cursor.getString(2);
                 String Tipo_canal = cursor.getString(3);
-                int Tarea_ID = cursor.getInt(4);
-                Canal canal = new Canal(ID, Nombre, Descripcion, Tipo_canal, Tarea_ID);
+                int Tipo_canalID = cursor.getInt(4);
+                int Tarea_ID = cursor.getInt(5);
+                int Admin_ID = cursor.getInt(6);
+                Canal canal = new Canal(ID, Nombre, Descripcion, Tipo_canal, Tipo_canalID, Tarea_ID, Admin_ID);
                 listaCanalesDelUsuario.add(canal);
             }while(cursor.moveToNext());
         }
@@ -380,38 +646,5 @@ public class DatabaseManager {
         db.close();
         return listaUsuarios_canales;
     }
-    public ArrayList<String> getTableNames(SQLiteDatabase db) {
-        ArrayList<String> tableNames = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-        if (cursor.moveToFirst()) {
-            do {
-                tableNames.add(cursor.getString(0));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return tableNames;
-    }
-    public ArrayList<String> getColumnNames(SQLiteDatabase db, String tableName) {
-        ArrayList<String> columnNames = new ArrayList<>();
-        Cursor cursor = db.rawQuery("PRAGMA table_info(" + tableName + ")", null);
-        if (cursor.moveToFirst()) {
-            do {
-                columnNames.add(cursor.getString(1));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return columnNames;
-    }
-    public void printDatabaseInfo() {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        ArrayList<String> tableNames = getTableNames(db);
-        for (String tableName : tableNames) {
-            System.out.println("Table: " + tableName);
-            ArrayList<String> columnNames = getColumnNames(db, tableName);
-            for (String columnName : columnNames) {
-                System.out.println("  Column: " + columnName);
-            }
-        }
-        db.close();
-    }
+
 }

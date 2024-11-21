@@ -9,6 +9,7 @@ public class Usuario implements Serializable {
     String Telefono;
     String Correo;
     String Password;
+    int id_amigo;
     ArrayList<Integer> amigos;
     ArrayList<Integer> canales;
     public static int idActual = 0;
@@ -16,11 +17,17 @@ public class Usuario implements Serializable {
     public Usuario(){
 
     }
-    public Usuario(int ID, String Nombre, String Apellido, String Telefono){
+    public Usuario(String Nombre, String Apellido, String Correo, int id_amigo){
+        this.Nombre = Nombre;
+        this.Apellido = Apellido;
+        this.Correo = Correo;
+        this.id_amigo = id_amigo;
+    }
+    public Usuario(int ID, String Nombre, String Apellido, String Correo){
         this.ID = ID;
         this.Nombre = Nombre;
         this.Apellido = Apellido;
-        this.Telefono = Telefono;
+        this.Correo = Correo;
     }
     public Usuario(int ID, String Nombre, String Apellido, String Correo, String Telefono){
         this.ID = ID;
@@ -111,6 +118,14 @@ public class Usuario implements Serializable {
 
     public void setCanales(ArrayList<Integer> canales) {
         this.canales = canales;
+    }
+
+    public int getId_amigo() {
+        return id_amigo;
+    }
+
+    public void setId_amigo(int id_amigo) {
+        this.id_amigo = id_amigo;
     }
 
     @Override

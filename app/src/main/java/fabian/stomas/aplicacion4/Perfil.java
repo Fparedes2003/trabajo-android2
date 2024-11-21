@@ -9,14 +9,18 @@ import fabian.stomas.aplicacion4.databinding.PerfilBinding;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class Perfil extends AppCompatActivity {
     int idUsuario;
+    int idRemitente;
+    int idReceptor;
     String Nombre;
     String Apellido;
     String Correo;
     DatabaseManager dtbmng = new DatabaseManager(this);
-    Amigos amigos = new Amigos();
-    Amigos amigos2 = new Amigos();
+    Solicitudes solicitudes = new Solicitudes();
+    Solicitudes solicitudV;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         PerfilBinding binding;
@@ -43,15 +47,19 @@ public class Perfil extends AppCompatActivity {
         binding.agregarAmigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                amigos.setId_usuario(Usuario.idActual);
-                amigos.setId_amigo(idUsuario);
-                amigos2.setId_usuario(idUsuario);
-                amigos2.setId_amigo(Usuario.idActual);
-                dtbmng.insertAmigos(amigos);
-                dtbmng.insertAmigos(amigos2);
-                Toast.makeText(Perfil.this, "SE HA AGREGADO A: "+Nombre+ "COMO TU AMIGO", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Perfil.this, BuscarUsuarios.class);
-                startActivity(intent);
+                solicitudV = dtbmng.getSolicitudVerificacion(Usuario.idActual, idUsuario);
+                if(solicitudV == null){
+                    solicitudes.setEstado("PENDIENTE");
+                    solicitudes.setId_remitente(Usuario.idActual);
+                    solicitudes.setId_receptor(idUsuario);
+                    dtbmng.insertSolicitud(solicitudes);
+                    Toast.makeText(Perfil.this, "SE HA ENVIADO UNA SOLICITUD A : "+Nombre, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Perfil.this, BuscarUsuarios.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(Perfil.this, "YA LE ENVIASTE UNA SOLICITUD A ESTE USUARIO", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

@@ -73,6 +73,62 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".SolicitudesAmistad"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".SolicitudesOpciones"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".VerAmigos"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".VerUsuariosCanal"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".VerAmigosCanal"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".Agregar"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".CanalConfigUsuario"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".EliminarAmigosCanal"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".EliminarUsuarioDeCanal"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".MenuCanalApuntes"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".PantallaEsperaCanal"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".VerApuntes"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".AgregarApunte"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".AgregarApunteCanal"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".ventana_2"
             android:exported="true">
             <intent-filter>
