@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AgregarApunteCanal extends AppCompatActivity {
     DatabaseManager dtbmng = new DatabaseManager(this);
+    CanalesApuntes canalesApuntesvf;
     int id_canal;
     int id_apunte;
     @Override
@@ -37,11 +38,17 @@ public class AgregarApunteCanal extends AppCompatActivity {
         binding.btnAgregarApunte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dtbmng.insertCanales_apuntes(id_apunte, id_canal);
-                Toast.makeText(AgregarApunteCanal.this, "SE HA AGREGADO TU APUNTE AL CANAL", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AgregarApunteCanal.this, AgregarApunte.class);
-                intent.putExtra("Canal", canal);
-                startActivity(intent);
+                canalesApuntesvf = dtbmng.verificarApunteEnCanal(id_apunte, id_canal);
+                if(canalesApuntesvf == null){
+                    dtbmng.insertCanales_apuntes(id_apunte, id_canal);
+                    Toast.makeText(AgregarApunteCanal.this, "SE HA AGREGADO TU APUNTE AL CANAL", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(AgregarApunteCanal.this, AgregarApunte.class);
+                    intent.putExtra("Canal", canal);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(AgregarApunteCanal.this, "ESTE APUNTE YA SE ENCUENTRA EN EL CANAL", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

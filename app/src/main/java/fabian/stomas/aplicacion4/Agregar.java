@@ -14,6 +14,7 @@ public class Agregar extends AppCompatActivity {
     int id_canal;
     UsuariosCanales usuariosCanales = new UsuariosCanales();
     DatabaseManager dtbmng = new DatabaseManager(this);
+    UsuariosCanales usuariosCanalesvf;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         AgregarBinding binding;
@@ -29,13 +30,19 @@ public class Agregar extends AppCompatActivity {
         binding.agregarAmigoAlCanal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                usuariosCanales.setId_usuario(idUsuarioAgregar);
-                usuariosCanales.setId_canal(id_canal);
-                dtbmng.insertUsuarios_canales(usuariosCanales);
-                Toast.makeText(Agregar.this, "SE HA AGREGADO AL USUARIO AL CANAL", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Agregar.this, VerAmigosCanal.class);
-                intent.putExtra("Canal", canal);
-                startActivity(intent);
+                usuariosCanalesvf = dtbmng.verificarSiElUsuarioEstaEnCanal(idUsuarioAgregar, id_canal);
+                if(usuariosCanalesvf == null){
+                    usuariosCanales.setId_usuario(idUsuarioAgregar);
+                    usuariosCanales.setId_canal(id_canal);
+                    dtbmng.insertUsuarios_canales(usuariosCanales);
+                    Toast.makeText(Agregar.this, "SE HA AGREGADO AL USUARIO AL CANAL", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Agregar.this, VerAmigosCanal.class);
+                    intent.putExtra("Canal", canal);
+                    startActivity(intent);
+
+                }else{
+                    Toast.makeText(Agregar.this, "EL USUARIO YA SE ENCUENTRA EN ESTE CANAL", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         binding.returnVistas.setOnClickListener(new View.OnClickListener() {

@@ -342,6 +342,36 @@ public class DatabaseManager {
         db.close();
         return null;
     }
+    public UsuariosCanales verificarSiElUsuarioEstaEnCanal(int id_usuario, int id_canal){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_usuario, id_canal FROM usuarios_canales WHERE id_usuario = ? AND id_canal = ?", new String[]{String.valueOf(id_usuario), String.valueOf(id_canal)});
+        if(cursor != null && cursor.moveToFirst()){
+            int id_usuario1 = cursor.getInt(0);
+            int id_canal1 = cursor.getInt(1);
+            UsuariosCanales usuariosCanales = new UsuariosCanales(id_usuario1, id_canal1);
+            cursor.close();
+            db.close();
+            return usuariosCanales;
+        }
+        cursor.close();
+        db.close();
+        return null;
+    }
+    public CanalesApuntes verificarApunteEnCanal(int id_apunte, int id_canal){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT id_apunte, id_canal FROM canales_apuntes WHERE id_apunte = ? AND id_canal = ?", new String[]{String.valueOf(id_apunte), String.valueOf(id_canal)});
+        if(cursor != null && cursor.moveToFirst()){
+            int id_apunte1 = cursor.getInt(0);
+            int id_canal1 = cursor.getInt(1);
+            CanalesApuntes canalesApuntes = new CanalesApuntes(id_apunte1, id_canal1);
+            cursor.close();
+            db.close();
+            return canalesApuntes;
+        }
+        cursor.close();
+        db.close();
+        return null;
+    }
     public ArrayList<Amigos> getAllAmigos(){
         ArrayList<Amigos> listaAmigos = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
