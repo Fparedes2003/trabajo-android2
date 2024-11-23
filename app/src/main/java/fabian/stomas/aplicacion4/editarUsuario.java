@@ -57,7 +57,7 @@ public class editarUsuario extends AppCompatActivity {
                 passwordActual2 = binding.passwordActual.getText().toString();
                 if(passwordActual2.equals(passworddb)){
                     newPassword = binding.newPassword.getText().toString();
-                    dtbsmng.updatePassUsuario(passwordActual2, newPassword);
+                    dtbsmng.updatePassUsuario(passwordActual2, newPassword, Usuario.idActual);
                     Toast.makeText(editarUsuario.this, "SE HA ACTUALIZADO TU CONTRASEÑA CORRECTAMENTE", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(editarUsuario.this, "LA CONTRASEÑA ACTUAL NO COINCIDE", Toast.LENGTH_SHORT).show();

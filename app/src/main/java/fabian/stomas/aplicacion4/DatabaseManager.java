@@ -34,11 +34,11 @@ public class DatabaseManager {
         db.update("usuario", values, "Password = ? AND Correo = ?", new String[]{passwordActual, emailActual});
         db.close();
     }
-    public void updatePassUsuario(String passwordActual, String newPassword){
+    public void updatePassUsuario(String passwordActual, String newPassword, int id_usuario){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("Password", newPassword);
-        db.update("usuario", values, "Password = ?", new String[]{passwordActual});
+        db.update("usuario", values, "Password = ? AND ID = ?", new String[]{passwordActual, String.valueOf(id_usuario)});
         db.close();
     }
     public void updateEstadoTarea(int idTarea){

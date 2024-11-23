@@ -49,6 +49,8 @@ public class SolicitudesOpciones extends AppCompatActivity {
                 amigos2.setId_amigo(id_remitente);
                 dtbmng.insertAmigos(amigos2);
                 Toast.makeText(SolicitudesOpciones.this, "EL USUARIO " +nombreRemitente + " AHORA ES TU AMIGO", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SolicitudesOpciones.this, SolicitudesAmistad.class);
+                startActivity(intent);
             }
         });
         binding.rechazarSolicitud.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +58,8 @@ public class SolicitudesOpciones extends AppCompatActivity {
             public void onClick(View view) {
                 dtbmng.updateEstadoSolicitudRechazada(id_solicitud);
                 Toast.makeText(SolicitudesOpciones.this, "SE HA RECHAZADO LA SOLICITUD DE AMISTAD", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SolicitudesOpciones.this, SolicitudesAmistad.class);
+                startActivity(intent);
             }
         });
 
