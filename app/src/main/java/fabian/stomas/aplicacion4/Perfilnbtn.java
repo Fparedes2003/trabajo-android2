@@ -45,7 +45,8 @@ public class Perfilnbtn extends AppCompatActivity {
                 dtbmng.deleteAmigo(Usuario.idActual, idUsuario);
                 dtbmng.deleteAmigo(idUsuario, Usuario.idActual);
                 Toast.makeText(Perfilnbtn.this, "SE HA ELIMINADO A TU AMIGO CON EXITO", Toast.LENGTH_SHORT).show();
-
+                Intent intent = new Intent(Perfilnbtn.this, BuscarUsuarios.class);
+                startActivity(intent);
             }
         });
 
