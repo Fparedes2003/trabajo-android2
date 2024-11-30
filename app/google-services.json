@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "764508044561",
+    "firebase_url": "https://studyhub-e4272-default-rtdb.firebaseio.com",
+    "project_id": "studyhub-e4272",
+    "storage_bucket": "studyhub-e4272.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764508044561:android:9ac6b8c1e9fdba290e20b0",
+        "android_client_info": {
+          "package_name": "fabian.stomas.aplicacion4"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYSj0cpyJvwlqZpsVsC_ouS4nvN42mEPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
