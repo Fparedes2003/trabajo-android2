@@ -41,8 +41,8 @@ public class EliminarAmigosCanal extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Usuario> itemList = new ArrayList<>();
         for(Usuario i: usuariosCanal){
-            if(admin != i.ID){
-                itemList.add(new Usuario(i.ID, i.Nombre, i.Apellido, i.Correo));
+            if(admin != i.getID()){
+                itemList.add(new Usuario(i.getID(), i.getNombre(), i.getApellido(), i.getCorreo()));
             }
         }
         MyAdapter3 myAdapter3 = new MyAdapter3(itemList);

@@ -3,15 +3,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Usuario implements Serializable {
-    int ID;
-    String Nombre;
-    String Apellido;
-    String Telefono;
-    String Correo;
-    String Password;
-    int id_amigo;
-    ArrayList<Integer> amigos;
-    ArrayList<Integer> canales;
+    private int ID;
+    private String Nombre;
+    private String Apellido;
+    private String Telefono;
+    private String Correo;
+    private String Password;
+    private int id_amigo;
+    private ArrayList<Integer> amigos;
+    private ArrayList<Integer> canales;
     public static int idActual = 0;
 
     public Usuario(){

@@ -21,10 +21,10 @@ public class Editar extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         for(Usuario i: usuarios){
-            System.out.println(i.Nombre);
-            System.out.println(i.Correo);
-            binding.profileText.setText(i.Nombre);
-            binding.emailText.setText(i.Correo);
+            System.out.println(i.getNombre());
+            System.out.println(i.getCorreo());
+            binding.profileText.setText(i.getNombre());
+            binding.emailText.setText(i.getCorreo());
         }
         binding.usereditBTN.setOnClickListener(new View.OnClickListener() {
             @Override

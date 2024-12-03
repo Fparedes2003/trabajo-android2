@@ -46,7 +46,7 @@ public class VerUsuariosCanal extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Usuario> itemList = new ArrayList<>();
         for(Usuario i: usuarios){
-            itemList.add(new Usuario(i.ID, i.Nombre, i.Apellido, i.Correo));
+            itemList.add(new Usuario(i.getID(), i.getNombre(), i.getApellido(), i.getCorreo()));
         }
         MyAdapter3 myAdapter3 = new MyAdapter3(itemList);
         recyclerView.setAdapter(myAdapter3);

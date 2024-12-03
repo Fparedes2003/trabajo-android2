@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 usuario.setCorreo(email);
                 usuario.setPassword(Password);
                 dbmng.insertUsuario(usuario);
-                Toast.makeText(MainActivity.this, "Usuario creado: "+ usuario.Nombre, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Usuario creado: "+ usuario.getNombre(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, ventana_2.class);
                 startActivity(intent);
             }

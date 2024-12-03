@@ -3,14 +3,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Canal implements Serializable {
-    int Id;
-    String Nombre;
-    String Descripcion;
-    int Tipo_canal;
-    String Tipo_canaldb;
-    int admin;
-    int Tarea_ID;
-    ArrayList<Usuario> usuariosCanal;
+    private int Id;
+    private String Nombre;
+    private String Descripcion;
+    private int Tipo_canal;
+    private String Tipo_canaldb;
+    private int admin;
+    private int Tarea_ID;
+    private ArrayList<Usuario> usuariosCanal;
     public static int idCanal;
 
     public Canal(){

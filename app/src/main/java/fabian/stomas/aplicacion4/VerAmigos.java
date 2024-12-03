@@ -28,7 +28,7 @@ public class VerAmigos extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Usuario> itemlist = new ArrayList<>();
         for(Usuario i: amigos){
-            itemlist.add(new Usuario(i.Nombre, i.Apellido, i.Correo, i.id_amigo));
+            itemlist.add(new Usuario(i.getNombre(), i.getApellido(), i.getCorreo(), i.getId_amigo()));
         }
         MyAdapter3 adapter3 = new MyAdapter3(itemlist);
         recyclerView.setAdapter(adapter3);

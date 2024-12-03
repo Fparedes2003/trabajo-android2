@@ -27,8 +27,8 @@ public class editarUsuario extends AppCompatActivity {
         binding = EditarUsuarioBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         for(Usuario i: usuarios){
-            passworddb = i.Password;
-            emaildb = i.Correo;
+            passworddb = i.getPassword();
+            emaildb = i.getCorreo();
         }
         binding.returnView.setOnClickListener(new View.OnClickListener() {
             @Override
