@@ -3,12 +3,12 @@ package fabian.stomas.aplicacion4;
 import java.util.Date;
 
 public class Tarea {
-    int ID;
-    String Titulo;
-    String Descripcion;
-    String Estado;
-    Date Fecha_expiracion;
-    String Fecha_expiraciondb;
+    private int ID;
+    private String Titulo;
+    private String Descripcion;
+    private String Estado;
+    private Date Fecha_expiracion;
+    private String Fecha_expiraciondb;
 
     public Tarea(){
 

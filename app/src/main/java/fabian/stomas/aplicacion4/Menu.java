@@ -35,7 +35,7 @@ public class Menu extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Canal> itemList = new ArrayList<>();
         for(Canal i: canales){
-            itemList.add(new Canal( i.Id,i.Nombre,i.Descripcion,i.Tipo_canaldb, i.Tipo_canal, i.Tarea_ID, i.admin));
+            itemList.add(new Canal( i.getId(),i.getNombre(),i.getDescripcion(),i.getTipo_canaldb(), i.getTipo_canal(), i.getTarea_ID(), i.getAdmin()));
         }
         MyAdapter adapter = new MyAdapter(itemList);
         recyclerView.setAdapter(adapter);

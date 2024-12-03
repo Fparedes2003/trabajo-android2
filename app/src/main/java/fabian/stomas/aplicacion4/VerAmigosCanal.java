@@ -29,7 +29,7 @@ public class VerAmigosCanal extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<Usuario> itemList = new ArrayList<>();
         for(Usuario i: usuarios){
-            itemList.add(new Usuario(i.Nombre, i.Apellido, i.Correo, i.id_amigo));
+            itemList.add(new Usuario(i.getNombre(), i.getApellido(), i.getCorreo(), i.getId_amigo()));
         }
         MyAdapter3 myAdapter3 = new MyAdapter3(itemList);
         recyclerView.setAdapter(myAdapter3);

@@ -1,7 +1,7 @@
 package fabian.stomas.aplicacion4;
 public class Tipo_canal {
-    int ID;
-    String Nombre;
+    private int ID;
+    private String Nombre;
 
     public Tipo_canal(int ID, String Nombre){
         this.ID = ID;
